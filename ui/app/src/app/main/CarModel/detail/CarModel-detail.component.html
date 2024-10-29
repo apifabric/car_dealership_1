@@ -1,0 +1,86 @@
+<div class="container">
+<o-form-container breadcrumb="yes" breadcrumb-label-columns="name" breadcrumb-separator=", " class="fill-form">
+      <o-form #form attr="CarModel_form_edit" 
+        service="CarModel" 
+        entity="CarModel" 
+        fxLayout="column" 
+        show-header="yes" 
+        header-actions="R;I;U;D"
+        #oDetailForm keys="id" 
+        keys-sql-types="INTEGER" 
+        show-header-navigation="yes"
+        (onDataLoaded)="onDataLoaded($event)">
+
+  <o-row attr="row1" layout-align="start stretch">
+    <div fxLayout="row wrap" fxLayoutAlign="start start" fxFlex fxLayoutGap="14px">
+      
+      <o-text-input #name attr="name" label=" name*" enabled="yes" required="yes" fxFlex="20%" class="form-field"></o-text-input>
+      
+      <o-integer-input #year attr="year" label="year" type="integer" editable="no" required="yes" ></o-integer-input>
+      
+      <o-integer-input #id attr="id" label="id" type="integer" editable="no" required="no" ></o-integer-input>
+      
+      <o-text-input #brand attr="brand" label="brand" enabled="yes" required="yes" fxFlex="20%" class="form-field"></o-text-input>
+      
+    </div>
+  </o-row>
+      
+      <mat-tab-group fxFill>
+        
+        <mat-tab label="CAR-model_id">
+    <div layout-padding>
+      <o-table 
+        attr="CarTable" 
+        service="Car" 
+        entity="Car" 
+        keys="id"
+        parent-keys="model_id:id"
+        columns="id;model_id;vin;price;color;is_sold"  
+        horizontal-scroll="yes"
+        detail-form-route="Car" 
+        edit-form-route="Car"
+        visible-columns="id;model_id;vin;price;color;is_sold"  
+        sort-columns="id" 
+        query-rows="25" 
+        quick-filter="yes"
+        row-height="medium" 
+        select-all-checkbox="true" 
+        pageable="yes"  
+        auto-adjust="true" 
+        virtual-scroll="yes" 
+        insert-button="yes" 
+        delete-button="yes" 
+        fixed-header="true" 
+        class="vertical-padding-8"
+        edition-mode="dblclick" 
+        horizontal-scroll="yes" class="fill-form">
+        
+          <o-table-column #id attr="id" title=" id*" type="integer" editable="no" required="no" content-align="center"></o-table-column>
+        
+          <o-table-column attr="model_id" title="model_id">
+    <o-table-cell-renderer-service attr="model_id" 
+        service="CarModel" entity="CarModelType" columns="id;name"
+        parent-keys="id:model_id"
+        value-column="name" keys="model_id"
+        visible-columns="name" separator=" - " width="680px">
+    </o-table-cell-renderer-service>
+</o-table-column>
+        
+          <o-table-column #vin attr="vin" title="vin" editable="no" required="yes" content-align="left"></o-table-column>
+        
+          <o-table-column #price attr="price" title="price" type="real" min-decimal-digits="2" max-decimal-digits="4" min="0" max="1000000.0000" content-align="center"></o-table-column>
+        
+          <o-table-column #color attr="color" title="color" editable="no" required="no" content-align="left"></o-table-column>
+        
+          <o-table-column #is_sold attr="is_sold" title="is_sold" editable="no" required="yes" content-align="left"></o-table-column>
+        
+        <o-table-paginator page-size-options="25;50;100"></o-table-paginator>
+      </o-table>
+    </div>
+</mat-tab>
+        
+      </mat-tab-group>
+      
+    </o-form>
+  </o-form-container>
+</div>

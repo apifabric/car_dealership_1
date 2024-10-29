@@ -1,0 +1,48 @@
+<o-form-layout-manager attr="Car" mode="tab" title="CAR">
+    <div fxFill fxLayout="column" fxLayoutAlign="start">
+        <o-table 
+            attr="CarTable" 
+            service="Car" 
+            entity="Car" 
+            title="CAR"
+            keys="id"
+            columns="id;model_id;vin;price;color;is_sold" 
+            header-actions="R;D"
+            visible-columns="id;model_id;vin;price;color;is_sold"  
+            sort-columns="id" 
+            query-rows="20" 
+            quick-filter="yes"
+            row-height="medium" 
+            select-all-checkbox="true" 
+            pageable="yes"  
+            auto-adjust="true" 
+            virtual-scroll="yes" 
+            edition-mode="dblclick"
+            horizontal-scroll="yes"
+            show-title="yes"
+            export-button="yes">
+            
+            <o-table-column #id attr="id" title=" id*" type="integer" editable="no" required="no" content-align="center"></o-table-column>
+            
+            <o-table-column attr="model_id" title="model_id">
+    <o-table-cell-renderer-service attr="model_id" 
+        service="CarModel" entity="CarModelType" columns="id;name"
+        parent-keys="id:model_id"
+        value-column="name" keys="model_id"
+        visible-columns="name" separator=" - " width="680px">
+    </o-table-cell-renderer-service>
+</o-table-column>
+            
+            <o-table-column #vin attr="vin" title="vin" editable="no" required="yes" content-align="left"></o-table-column>
+            
+            <o-table-column #price attr="price" title="price" type="real" min-decimal-digits="2" max-decimal-digits="4" min="0" max="1000000.0000" content-align="center"></o-table-column>
+            
+            <o-table-column #color attr="color" title="color" editable="no" required="no" content-align="left"></o-table-column>
+            
+            <o-table-column #is_sold attr="is_sold" title="is_sold" editable="no" required="yes" content-align="left"></o-table-column>
+            
+            <o-table-context-menu></o-table-context-menu>
+            <o-table-paginator page-size-options="24;48;96"></o-table-paginator>
+        </o-table>
+    </div>
+</o-form-layout-manager>

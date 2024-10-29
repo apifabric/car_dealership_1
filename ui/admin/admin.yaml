@@ -1,0 +1,375 @@
+about:
+  date: October 29, 2024 12:58:20
+  recent_changes: works with modified safrs-react-admin
+  version: 0.0.0
+api_root: '{http_type}://{swagger_host}:{port}/{api}'
+authentication: '{system-default}'
+info:
+  number_relationships: 12
+  number_tables: 12
+info_toggle_checked: true
+resources:
+  Accessory:
+    attributes:
+    - label: ' name*'
+      name: name
+      required: true
+      search: true
+      sort: true
+    - name: price
+      required: true
+    - name: id
+    description: Catalog of available car accessories.
+    info_list: Catalog of available car accessories.
+    tab_groups:
+    - direction: tomany
+      fks:
+      - accessory_id
+      name: CarAccessoryList
+      resource: CarAccessory
+    type: Accessory
+    user_key: name
+  Car:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: model_id
+      required: true
+    - name: vin
+      required: true
+    - name: price
+      required: true
+    - name: color
+    - name: is_sold
+      required: true
+    description: This table keeps track of individual cars in the dealership's inventory.
+    info_list: This table keeps track of individual cars in the dealership's inventory.
+    tab_groups:
+    - direction: tomany
+      fks:
+      - car_id
+      name: CarAccessoryList
+      resource: CarAccessory
+    - direction: tomany
+      fks:
+      - car_id
+      name: InventoryAuditList
+      resource: InventoryAudit
+    - direction: tomany
+      fks:
+      - car_id
+      name: MaintenanceList
+      resource: Maintenance
+    - direction: tomany
+      fks:
+      - car_id
+      name: SaleList
+      resource: Sale
+    - direction: tomany
+      fks:
+      - car_id
+      name: ServiceBookingList
+      resource: ServiceBooking
+    - direction: tomany
+      fks:
+      - car_id
+      name: TestDriveList
+      resource: TestDrive
+    - direction: toone
+      fks:
+      - model_id
+      name: model
+      resource: CarModel
+    type: Car
+    user_key: id
+  CarAccessory:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: accessory_id
+      required: true
+    - name: car_id
+      required: true
+    - name: quantity
+      required: true
+    description: Links accessories and cars together with details about quantity.
+    info_list: Links accessories and cars together with details about quantity.
+    tab_groups:
+    - direction: toone
+      fks:
+      - accessory_id
+      name: accessory
+      resource: Accessory
+    - direction: toone
+      fks:
+      - car_id
+      name: car
+      resource: Car
+    type: CarAccessory
+    user_key: id
+  CarModel:
+    attributes:
+    - label: ' name*'
+      name: name
+      required: true
+      search: true
+      sort: true
+    - name: year
+      required: true
+    - name: id
+    - name: brand
+      required: true
+    description: This page shows information about different car models available
+      at the dealership.
+    info_list: This page shows information about different car models available at
+      the dealership.
+    tab_groups:
+    - direction: tomany
+      fks:
+      - model_id
+      name: CarList
+      resource: Car
+    type: CarModel
+    user_key: name
+  Customer:
+    attributes:
+    - label: ' first_name*'
+      name: first_name
+      required: true
+      search: true
+      sort: true
+    - name: last_name
+      required: true
+    - name: email
+    - name: phone_number
+    - name: id
+    description: This table contains personal information of customers.
+    info_list: This table contains personal information of customers.
+    tab_groups:
+    - direction: tomany
+      fks:
+      - customer_id
+      name: SaleList
+      resource: Sale
+    - direction: tomany
+      fks:
+      - customer_id
+      name: TestDriveList
+      resource: TestDrive
+    type: Customer
+    user_key: first_name
+  InventoryAudit:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: car_id
+      required: true
+    - name: audit_date
+      type: DATETIME
+    - name: notes
+    description: Logs periodic audits of car inventory.
+    info_list: Logs periodic audits of car inventory.
+    tab_groups:
+    - direction: toone
+      fks:
+      - car_id
+      name: car
+      resource: Car
+    type: InventoryAudit
+    user_key: id
+  Maintenance:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: car_id
+      required: true
+    - name: service_date
+      type: DATETIME
+    - name: notes
+    description: Records maintenance activities performed on cars.
+    info_list: Records maintenance activities performed on cars.
+    tab_groups:
+    - direction: toone
+      fks:
+      - car_id
+      name: car
+      resource: Car
+    type: Maintenance
+    user_key: id
+  Sale:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: car_id
+      required: true
+    - name: customer_id
+      required: true
+    - name: salesperson_id
+      required: true
+    - name: sale_date
+      type: DATETIME
+    - name: sale_amount
+      required: true
+    description: This table logs each car sale transaction.
+    info_list: This table logs each car sale transaction.
+    tab_groups:
+    - direction: toone
+      fks:
+      - car_id
+      name: car
+      resource: Car
+    - direction: toone
+      fks:
+      - customer_id
+      name: customer
+      resource: Customer
+    - direction: toone
+      fks:
+      - salesperson_id
+      name: salesperson
+      resource: Salesperson
+    type: Sale
+    user_key: id
+  Salesperson:
+    attributes:
+    - label: ' first_name*'
+      name: first_name
+      required: true
+      search: true
+      sort: true
+    - name: last_name
+      required: true
+    - name: id
+    - name: employee_id
+      required: true
+    description: This page shows details of salespeople working at the dealership.
+    info_list: This page shows details of salespeople working at the dealership.
+    tab_groups:
+    - direction: tomany
+      fks:
+      - salesperson_id
+      name: SaleList
+      resource: Sale
+    type: Salesperson
+    user_key: first_name
+  ServiceBooking:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: car_id
+      required: true
+    - name: service_package_id
+      required: true
+    - name: booking_date
+      type: DATETIME
+    - name: scheduled_date
+      required: true
+      type: DATETIME
+    description: Manages bookings of services by customers.
+    info_list: Manages bookings of services by customers.
+    tab_groups:
+    - direction: toone
+      fks:
+      - car_id
+      name: car
+      resource: Car
+    - direction: toone
+      fks:
+      - service_package_id
+      name: service_package
+      resource: ServicePackage
+    type: ServiceBooking
+    user_key: id
+  ServicePackage:
+    attributes:
+    - label: ' name*'
+      name: name
+      required: true
+      search: true
+      sort: true
+    - name: description
+    - name: price
+      required: true
+    - name: id
+    description: Details different service packages available for cars.
+    info_list: Details different service packages available for cars.
+    tab_groups:
+    - direction: tomany
+      fks:
+      - service_package_id
+      name: ServiceBookingList
+      resource: ServiceBooking
+    type: ServicePackage
+    user_key: name
+  TestDrive:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: car_id
+      required: true
+    - name: customer_id
+      required: true
+    - name: test_drive_date
+      required: true
+      type: DATETIME
+    - name: feedback
+    description: Logs information about test drive appointments of cars.
+    info_list: Logs information about test drive appointments of cars.
+    tab_groups:
+    - direction: toone
+      fks:
+      - car_id
+      name: car
+      resource: Car
+    - direction: toone
+      fks:
+      - customer_id
+      name: customer
+      resource: Customer
+    type: TestDrive
+    user_key: id
+settings:
+  HomeJS: /admin-app/home.js
+  max_list_columns: 8
+  style_guide:
+    applicationLocales:
+    - en
+    - es
+    currency_symbol: $
+    currency_symbol_position: left
+    date_format: LL
+    decimal_max: '1000000000'
+    decimal_min: '0'
+    decimal_separator: .
+    detail_mode: tab
+    edit_on_mode: dblclick
+    exclude_listpicker: false
+    include_translation: 'false'
+    keycloak_client_id: alsclient
+    keycloak_realm: kcals
+    keycloak_url: http://localhost:8080
+    locale: en
+    max_decimal_digits: '4'
+    min_decimal_digits: '2'
+    new_mode: dialog
+    pick_style: list
+    row_height: small,
+    serviceType: OntimizeEE
+    startSessionPath: /auth/login
+    style: light
+    thousand_separator: ','
+    use_keycloak: 'false'

@@ -1,0 +1,126 @@
+// Copy this text, paste to https://dbdiagram.io/d
+// Or, https://databasediagram.com/app
+// Or, view in VSCode with extension: "DBML Live Preview"
+
+Project DBML {
+  Note: '''
+Accessory: Catalog of available car accessories.
+Car: This table keeps track of individual cars in the dealership's inventory.
+CarModel: information about different car models available at the dealership.
+CarAccessory: Links accessories and cars together with details about quantity.
+Customer: This table contains personal information of customers.
+InventoryAudit: Logs periodic audits of car inventory.
+Maintenance: Records maintenance activities performed on cars.
+Sale: This table logs each car sale transaction.
+Salesperson: details of salespeople working at the dealership.
+ServiceBooking: Manages bookings of services by customers.
+ServicePackage: Details different service packages available for cars.
+TestDrive: Logs information about test drive appointments of cars.
+'''
+}
+
+Table Accessory {
+    id INTEGER [primary key]
+    name VARCHAR 
+    price FLOAT 
+    }
+
+Table Car {
+    id INTEGER [primary key]
+    vin VARCHAR 
+    model_id INTEGER 
+    price FLOAT 
+    color VARCHAR 
+    is_sold BOOLEAN 
+    }
+
+Table CarModel {
+    id INTEGER [primary key]
+    name VARCHAR 
+    brand VARCHAR 
+    year INTEGER 
+    }
+
+Table CarAccessory {
+    id INTEGER [primary key]
+    car_id INTEGER 
+    accessory_id INTEGER 
+    quantity INTEGER 
+    }
+
+Table Customer {
+    id INTEGER [primary key]
+    first_name VARCHAR 
+    last_name VARCHAR 
+    email VARCHAR 
+    phone_number VARCHAR 
+    }
+
+Table InventoryAudit {
+    id INTEGER [primary key]
+    car_id INTEGER 
+    audit_date DATETIME 
+    notes VARCHAR 
+    }
+
+Table Maintenance {
+    id INTEGER [primary key]
+    car_id INTEGER 
+    service_date DATETIME 
+    notes VARCHAR 
+    }
+
+Table Sale {
+    id INTEGER [primary key]
+    car_id INTEGER 
+    customer_id INTEGER 
+    salesperson_id INTEGER 
+    sale_date DATETIME 
+    sale_amount FLOAT 
+    }
+
+Table Salesperson {
+    id INTEGER [primary key]
+    first_name VARCHAR 
+    last_name VARCHAR 
+    employee_id VARCHAR 
+    }
+
+Table ServiceBooking {
+    id INTEGER [primary key]
+    car_id INTEGER 
+    service_package_id INTEGER 
+    booking_date DATETIME 
+    scheduled_date DATETIME 
+    }
+
+Table ServicePackage {
+    id INTEGER [primary key]
+    name VARCHAR 
+    description VARCHAR 
+    price FLOAT 
+    }
+
+Table TestDrive {
+    id INTEGER [primary key]
+    car_id INTEGER 
+    customer_id INTEGER 
+    test_drive_date DATETIME 
+    feedback VARCHAR 
+    }
+
+
+
+// Relationships
+    Ref: Car.(model_id) < CarModel.(id)
+    Ref: CarAccessory.(accessory_id) < Accessory.(id)
+    Ref: CarAccessory.(car_id) < Car.(id)
+    Ref: InventoryAudit.(car_id) < Car.(id)
+    Ref: Maintenance.(car_id) < Car.(id)
+    Ref: Sale.(car_id) < Car.(id)
+    Ref: Sale.(customer_id) < Customer.(id)
+    Ref: Sale.(salesperson_id) < Salesperson.(id)
+    Ref: ServiceBooking.(car_id) < Car.(id)
+    Ref: ServiceBooking.(service_package_id) < ServicePackage.(id)
+    Ref: TestDrive.(car_id) < Car.(id)
+    Ref: TestDrive.(customer_id) < Customer.(id)

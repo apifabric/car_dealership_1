@@ -1,0 +1,561 @@
+about:
+  date: October 29, 2024 12:58:20
+  recent_changes: works with modified safrs-react-admin
+  version: 0.0.0
+api_root: '{http_type}://{swagger_host}:{port}/{api}'
+authentication: '{system-default}'
+entities:
+  Accessory:
+    columns:
+    - label: ' name*'
+      name: name
+      required: true
+      search: true
+      sort: true
+      template: text
+      type: VARCHAR
+    - name: price
+      required: true
+      template: real
+      type: FLOAT
+    - name: id
+      template: integer
+      type: INTEGER
+    description: Catalog of available car accessories.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: name
+    home_template: home_template.html
+    info_list: Catalog of available car accessories.
+    label: Accessory
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: tomany
+      fks:
+      - accessory_id
+      name: CarAccessoryList
+      resource: CarAccessory
+    type: Accessory
+  Car:
+    columns:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+      template: integer
+      type: INTEGER
+    - name: model_id
+      required: true
+      template: integer
+      type: INTEGER
+    - name: vin
+      required: true
+      template: text
+      type: VARCHAR
+    - name: price
+      required: true
+      template: real
+      type: FLOAT
+    - name: color
+      template: text
+      type: VARCHAR
+    - name: is_sold
+      required: true
+      template: text
+      type: BOOLEAN
+    description: This table keeps track of individual cars in the dealership's inventory.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: id
+    home_template: home_template.html
+    info_list: This table keeps track of individual cars in the dealership's inventory.
+    label: Car
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: tomany
+      fks:
+      - car_id
+      name: CarAccessoryList
+      resource: CarAccessory
+    - direction: tomany
+      fks:
+      - car_id
+      name: InventoryAuditList
+      resource: InventoryAudit
+    - direction: tomany
+      fks:
+      - car_id
+      name: MaintenanceList
+      resource: Maintenance
+    - direction: tomany
+      fks:
+      - car_id
+      name: SaleList
+      resource: Sale
+    - direction: tomany
+      fks:
+      - car_id
+      name: ServiceBookingList
+      resource: ServiceBooking
+    - direction: tomany
+      fks:
+      - car_id
+      name: TestDriveList
+      resource: TestDrive
+    - direction: toone
+      fks:
+      - model_id
+      name: model
+      resource: CarModel
+    type: Car
+  CarAccessory:
+    columns:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+      template: integer
+      type: INTEGER
+    - name: accessory_id
+      required: true
+      template: integer
+      type: INTEGER
+    - name: car_id
+      required: true
+      template: integer
+      type: INTEGER
+    - name: quantity
+      required: true
+      template: integer
+      type: INTEGER
+    description: Links accessories and cars together with details about quantity.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: id
+    home_template: home_template.html
+    info_list: Links accessories and cars together with details about quantity.
+    label: CarAccessory
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: toone
+      fks:
+      - accessory_id
+      name: accessory
+      resource: Accessory
+    - direction: toone
+      fks:
+      - car_id
+      name: car
+      resource: Car
+    type: CarAccessory
+  CarModel:
+    columns:
+    - label: ' name*'
+      name: name
+      required: true
+      search: true
+      sort: true
+      template: text
+      type: VARCHAR
+    - name: year
+      required: true
+      template: integer
+      type: INTEGER
+    - name: id
+      template: integer
+      type: INTEGER
+    - name: brand
+      required: true
+      template: text
+      type: VARCHAR
+    description: This page shows information about different car models available
+      at the dealership.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: name
+    home_template: home_template.html
+    info_list: This page shows information about different car models available at
+      the dealership.
+    label: CarModel
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: tomany
+      fks:
+      - model_id
+      name: CarList
+      resource: Car
+    type: CarModel
+  Customer:
+    columns:
+    - label: ' first_name*'
+      name: first_name
+      required: true
+      search: true
+      sort: true
+      template: text
+      type: VARCHAR
+    - name: last_name
+      required: true
+      template: text
+      type: VARCHAR
+    - name: email
+      template: text
+      type: VARCHAR
+    - name: phone_number
+      template: text
+      type: VARCHAR
+    - name: id
+      template: integer
+      type: INTEGER
+    description: This table contains personal information of customers.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: first_name
+    home_template: home_template.html
+    info_list: This table contains personal information of customers.
+    label: Customer
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: tomany
+      fks:
+      - customer_id
+      name: SaleList
+      resource: Sale
+    - direction: tomany
+      fks:
+      - customer_id
+      name: TestDriveList
+      resource: TestDrive
+    type: Customer
+  InventoryAudit:
+    columns:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+      template: integer
+      type: INTEGER
+    - name: car_id
+      required: true
+      template: integer
+      type: INTEGER
+    - name: audit_date
+      type: DATETIME
+    - name: notes
+      template: text
+      type: VARCHAR
+    description: Logs periodic audits of car inventory.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: id
+    home_template: home_template.html
+    info_list: Logs periodic audits of car inventory.
+    label: InventoryAudit
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: toone
+      fks:
+      - car_id
+      name: car
+      resource: Car
+    type: InventoryAudit
+  Maintenance:
+    columns:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+      template: integer
+      type: INTEGER
+    - name: car_id
+      required: true
+      template: integer
+      type: INTEGER
+    - name: service_date
+      type: DATETIME
+    - name: notes
+      template: text
+      type: VARCHAR
+    description: Records maintenance activities performed on cars.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: id
+    home_template: home_template.html
+    info_list: Records maintenance activities performed on cars.
+    label: Maintenance
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: toone
+      fks:
+      - car_id
+      name: car
+      resource: Car
+    type: Maintenance
+  Sale:
+    columns:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+      template: integer
+      type: INTEGER
+    - name: car_id
+      required: true
+      template: integer
+      type: INTEGER
+    - name: customer_id
+      required: true
+      template: integer
+      type: INTEGER
+    - name: salesperson_id
+      required: true
+      template: integer
+      type: INTEGER
+    - name: sale_date
+      type: DATETIME
+    - name: sale_amount
+      required: true
+      template: real
+      type: FLOAT
+    description: This table logs each car sale transaction.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: id
+    home_template: home_template.html
+    info_list: This table logs each car sale transaction.
+    label: Sale
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: toone
+      fks:
+      - car_id
+      name: car
+      resource: Car
+    - direction: toone
+      fks:
+      - customer_id
+      name: customer
+      resource: Customer
+    - direction: toone
+      fks:
+      - salesperson_id
+      name: salesperson
+      resource: Salesperson
+    type: Sale
+  Salesperson:
+    columns:
+    - label: ' first_name*'
+      name: first_name
+      required: true
+      search: true
+      sort: true
+      template: text
+      type: VARCHAR
+    - name: last_name
+      required: true
+      template: text
+      type: VARCHAR
+    - name: id
+      template: integer
+      type: INTEGER
+    - name: employee_id
+      required: true
+      template: text
+      type: VARCHAR
+    description: This page shows details of salespeople working at the dealership.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: first_name
+    home_template: home_template.html
+    info_list: This page shows details of salespeople working at the dealership.
+    label: Salesperson
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: tomany
+      fks:
+      - salesperson_id
+      name: SaleList
+      resource: Sale
+    type: Salesperson
+  ServiceBooking:
+    columns:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+      template: integer
+      type: INTEGER
+    - name: car_id
+      required: true
+      template: integer
+      type: INTEGER
+    - name: service_package_id
+      required: true
+      template: integer
+      type: INTEGER
+    - name: booking_date
+      type: DATETIME
+    - name: scheduled_date
+      required: true
+      type: DATETIME
+    description: Manages bookings of services by customers.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: id
+    home_template: home_template.html
+    info_list: Manages bookings of services by customers.
+    label: ServiceBooking
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: toone
+      fks:
+      - car_id
+      name: car
+      resource: Car
+    - direction: toone
+      fks:
+      - service_package_id
+      name: service_package
+      resource: ServicePackage
+    type: ServiceBooking
+  ServicePackage:
+    columns:
+    - label: ' name*'
+      name: name
+      required: true
+      search: true
+      sort: true
+      template: text
+      type: VARCHAR
+    - name: description
+      template: text
+      type: VARCHAR
+    - name: price
+      required: true
+      template: real
+      type: FLOAT
+    - name: id
+      template: integer
+      type: INTEGER
+    description: Details different service packages available for cars.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: name
+    home_template: home_template.html
+    info_list: Details different service packages available for cars.
+    label: ServicePackage
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: tomany
+      fks:
+      - service_package_id
+      name: ServiceBookingList
+      resource: ServiceBooking
+    type: ServicePackage
+  TestDrive:
+    columns:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+      template: integer
+      type: INTEGER
+    - name: car_id
+      required: true
+      template: integer
+      type: INTEGER
+    - name: customer_id
+      required: true
+      template: integer
+      type: INTEGER
+    - name: test_drive_date
+      required: true
+      type: DATETIME
+    - name: feedback
+      template: text
+      type: VARCHAR
+    description: Logs information about test drive appointments of cars.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: id
+    home_template: home_template.html
+    info_list: Logs information about test drive appointments of cars.
+    label: TestDrive
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: toone
+      fks:
+      - car_id
+      name: car
+      resource: Car
+    - direction: toone
+      fks:
+      - customer_id
+      name: customer
+      resource: Customer
+    type: TestDrive
+settings:
+  HomeJS: /admin-app/home.js
+  max_list_columns: 8
+  style_guide:
+    applicationLocales:
+    - en
+    - es
+    currency_symbol: $
+    currency_symbol_position: left
+    date_format: LL
+    decimal_max: '1000000000'
+    decimal_min: '0'
+    decimal_separator: .
+    edit_on_mode: dblclick
+    exclude_listpicker: false
+    include_translation: false
+    keycloak_client_id: alsclient
+    keycloak_realm: kcals
+    keycloak_url: http://localhost:8080
+    locale: en
+    max_decimal_digits: '4'
+    min_decimal_digits: '2'
+    mode: tab
+    pick_style: list
+    serviceType: OntimizeEE
+    startSessionPath: /auth/login
+    style: light
+    thousand_separator: ','
+    use_keycloak: false
